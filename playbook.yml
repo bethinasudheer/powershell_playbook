@@ -1,0 +1,26 @@
+---
+- name : powershell command line script
+  hosts : windows-client
+  tasks :
+    - name : Get all services in the client machine
+      script: /home/ansible/Get-service.ps1
+    - name: Copy services file to Ansible server
+      fetch :
+        src: C:\ansible\services.csv
+        dest: /home/ansible/{{inventory_hostname}}-services.csv
+        flat: yes
+    - name : Get all installed patches in the client machine
+      script: /home/ansible/Hotfixes.ps1
+    - name: Copy installed patch file to Ansible server
+      fetch :
+        src: C:\ansible\Hotfixes.csv
+        dest: /home/ansible/{{inventory_hostname}}-Hotfixes.csv
+        flat: yes
+    - name : Get all pending patches in the client machine
+      script: /home/ansible/get-pending-patches.ps1
+    - name: Copy installed patch file to Ansible server
+      fetch :
+        src: C:\ansible\pending-patches.csv
+        dest: /home/ansible/{{inventory_hostname}}-pending-patches.csv
+        flat: yes
+
